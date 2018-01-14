@@ -36,6 +36,7 @@ table1.new_record({"id":db.auto,"name":"philip","adult":True})
 table1.new_record({"id":db.auto,"name":"romualdo","adult":True})
 table1.new_record({"id":db.auto,"name":"noah","adult":True})
 table1.new_record({"id":db.auto,"name":"chris","adult":False})
+table1.new_record({"id":db.auto,"name":"chris","adult":False})
 
 name = table1.save()
 table1 = db.load(name)
