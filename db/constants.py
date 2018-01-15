@@ -14,9 +14,10 @@ equals = lambda x,y:x==y
 notequals = lambda x,y:x!=y
 contains = lambda x,y:x in y
 
-logging_importance = 0
+logging_importance = 1
 
 debug = True
+_silent = False
 
 def toggle_debug(setter=None):
 	global debug
@@ -24,6 +25,13 @@ def toggle_debug(setter=None):
 	if setter != None:
 		debug = setter
 	debug = not debug
+
+def silent(setter=None):
+	global _silent
+	if type(setter) == bool: log("debug must be bool",importance=6)
+	if setter != None:
+		_silent = setter
+	_silent = not debug
 
 save = True
 def toggle_save(setter=None):

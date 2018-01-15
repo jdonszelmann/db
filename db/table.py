@@ -84,6 +84,12 @@ class table():
 				f.write('\n')
 		return name
 
+def exists(name):
+	try:
+		f = open("{}.dbfile".format(name),"rb").read()
+		return True
+	except Exception:
+		return False
 
 def load(name):
 	with open("{}.dbfile".format(name),"rb") as f:

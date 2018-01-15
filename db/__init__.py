@@ -3,6 +3,9 @@ from .types import *
 from .constants import *
 from .table import load
 
+import os
+path = os.path.dirname(os.path.realpath(__file__))
+
 log("save-on-exit is set to {}".format(save), importance=1)
 if debug: log("debug is set to True", importance=1)
 
