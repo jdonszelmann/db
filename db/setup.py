@@ -2,12 +2,15 @@ from .table import *
 from . import types
 from .logging import *
 
+opened_tables = []
+
 class db():
 	def __init__(self):
 		pass
 	
 	@classmethod
 	def importfrom(self,name=None,typen="csv",seperator=","):
+		global opened_tables
 		order = True
 		if not hasattr(self,"setup"): log("no db setup found",importance=6)
 		if not hasattr(self,"primarykey"):
@@ -68,6 +71,13 @@ class db():
 								if key1 == key:
 									i[key] == int(i[key])
 
+				for i in opened_tables:
+					if t.name == i.name:
+						log("renewing table {}".format(i.name),importance=1)
+						opened_tables[opened_tables.index(i)] = t
+						break
+				else:
+					opened_tables.append(t)
 				return t
 
 
@@ -96,9 +106,19 @@ class db():
 							for key1,item1 in i.items():
 								if key1 == key:
 									i[key] == int(i[key])
+				for i in opened_tables:
+					if t.name == i.name:
+						log("renewing table {}".format(i.name),importance=1)
+						opened_tables[opened_tables.index(i)] = t
+						break
+				else: 
+					opened_tables.append(t)
+
 				return t
 
 	def __new__(self):
+		global opened_tables
+		
 		if not hasattr(self,"setup"): log("no db setup found",importance=6)
 		if not hasattr(self,"primarykey"):
 			log("no primary key found",importance=2)
@@ -115,7 +135,16 @@ class db():
 		else:
 			log("no name found in setup",importance=2)
 			name = None
-		return table(self.setup, list(set(self.primarykey)), name, self.order)
+
+		t = table(self.setup, list(set(self.primarykey)), name, self.order)
+		for i in opened_tables:
+			if t.name == i.name: 
+				log("renewing table {}".format(i.name),importance=1)
+				opened_tables[opened_tables.index(i)] = t
+				break
+		else: 
+			opened_tables.append(t)
+		return t
 
 
 
