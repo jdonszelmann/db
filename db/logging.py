@@ -3,7 +3,7 @@ from . import colorama
 colorama.init(autoreset=True)
 
 def log(message,importance=constants.logging_importance, print_log=True):
-	if not constants._silent and importance < 6:
+	if not (constants._silent or importance > 6):
 		if print_log:
 			if importance == 0 and constants.debug:
 				print("log: " + message)
@@ -51,8 +51,13 @@ def log(message,importance=constants.logging_importance, print_log=True):
 			elif importance == 9:
 				return colorama.Back.RED + colorama.Fore.RED + message
 
-def abort():
-	raise SystemExit(log("",print_log=False,importance=6))
+class abort(SystemExit):
+	def __new__(cls, message=None):
+		if message == None:
+			message = "program terminated unexpectedly"
+		raise SystemExit(log(message,print_log=False,importance=6))
+
+
 
 def logging_increment(value=1):
 	constants.logging_importance += value

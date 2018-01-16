@@ -1,20 +1,7 @@
 import db
+db.toggle_save(False)
 
 class setup1(db.db):
-	setup = {
-		"id":db.unique(),
-		"name":db.short_text(),
-		"adult":db.yesno(),
-	}
-	order = [
-		"id",
-		"name",
-		"adult",
-	]
-	primarykey = ["id"]
-	name = "names"
-
-class setup2(db.db):
 	setup = {
 		"id":db.unique(),
 		"name":db.short_text(),
@@ -36,17 +23,11 @@ table1.new_record({"id":db.auto,"name":"philip","adult":True})
 table1.new_record({"id":db.auto,"name":"romualdo","adult":True})
 table1.new_record({"id":db.auto,"name":"noah","adult":True})
 table1.new_record({"id":db.auto,"name":"chris","adult":False})
-table1.new_record({"id":db.auto,"name":"chris","adult":False})
-
-name = table1.save()
-table1 = db.load(name)
+table1.new_record({"id":db.auto,"name":"marco","adult":False})
 
 res1 = table1.query()					\
 	.where("adult",True,db.equals)		\
 	.delete()							\
-	.getcol("name")
-
-name = table1.exportto()
-table1 = setup2.importfrom()  
+	.done()
 
 print(res1)

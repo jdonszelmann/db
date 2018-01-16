@@ -20,12 +20,14 @@ class table():
 		from .query import query
 		return query(self.types,self.keys,"{} from table '{}'".format(name,self.name),self.order,self.records)
 
-	def new_record(self, record):
+	def new_record(self, record={}, **kwargs):
 		"""
 		adds a new record to the database
 
 		record must contain keys mapped in the setup object
 		"""
+		record.update(kwargs)
+
 		record_new = {}
 		for i in self.types.keys():
 			if i not in record.keys():
